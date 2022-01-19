@@ -9,5 +9,6 @@
 {{ $desc }}
 {{ $text }}
 {{ $date }}
+<br/><a href="{{ url($link) }}">На главную</a>
 </body>
 </html>

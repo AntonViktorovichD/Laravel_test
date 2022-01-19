@@ -21,11 +21,7 @@ class PostController extends Controller
    public function getAll()
    {
       $posts = Post::all();
-//      foreach ($posts as $post) {
-//         echo $post['id'] . '<a href="' . $post['id'] . '"> ' . $post['title'] . '</a> ' . $post['desc'] . ' ' . $post['date'] . '<br/>';
-//         echo
-//         echo '<p><a href="' . url("test/del/{$post->id}") . '">Удалить запись №' . $post['id'] . '</a></p>' . '<br/>';
-//      }
+
       return view('test.all', ['posts' => $posts]);
    }
 
@@ -50,7 +46,7 @@ class PostController extends Controller
          $post->text = $request->text;
          $post->save();
       }
-      return view('test.editPost', ['attention' => 'В БД изменена запись: ', 'title' => $edit]);
+      return view('test.editPost', ['attention' => 'В БД изменена запись: ', 'title' => $edit, 'link' => 'test/all']);
    }
 
    public function newPost(Request $request)
@@ -69,7 +65,7 @@ class PostController extends Controller
       $desc = $request->input('desc');
       $text = $request->input('text');
       $date = $request->input('date');
-      return view('test.result', ['attention' => 'В БД добавлено: ', 'title' => $title, 'desc' => $desc, 'text' => $text, 'date' => $date]);
+      return view('test.result', ['attention' => 'В БД добавлено: ', 'title' => $title, 'desc' => $desc, 'text' => $text, 'date' => $date, 'link' => 'test/all']);
    }
 
    public function delPost(Request $request, $id)
@@ -90,7 +86,7 @@ class PostController extends Controller
          $post->title = $request->title;
          $post->delete();
       }
-      return view('test.delPost', ['attention' => 'Из БД удалено: ', 'title' => $del]);
+      return view('test.delPost', ['attention' => 'Из БД удалено: ', 'title' => $del, 'link' => 'test/all']);
    }
 }
 
