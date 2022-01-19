@@ -21,10 +21,12 @@ class PostController extends Controller
    public function getAll()
    {
       $posts = Post::all();
-      foreach ($posts as $post) {
-         echo $post['id'] . '<a href="' . $post['id'] . '"> ' . $post['title'] . '</a> ' . $post['desc'] . ' ' . $post['date'] . '<br/>';
-         echo '<p><a href="' . url("test/edit/{$post->id}") . '">Редактировать запись №' . $post['id'] . '</a></p>' . '<br/>';
-      }
+//      foreach ($posts as $post) {
+//         echo $post['id'] . '<a href="' . $post['id'] . '"> ' . $post['title'] . '</a> ' . $post['desc'] . ' ' . $post['date'] . '<br/>';
+//         echo
+//         echo '<p><a href="' . url("test/del/{$post->id}") . '">Удалить запись №' . $post['id'] . '</a></p>' . '<br/>';
+//      }
+      return view('test.all', ['posts' => $posts]);
    }
 
    public function editPost(Request $request, $id)
