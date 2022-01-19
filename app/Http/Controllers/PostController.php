@@ -61,5 +61,9 @@ class PostController extends Controller
       $date = $request->input('date');
       return view('test.result', ['attention' => 'В БД добавлено: ', 'title' => $title, 'desc' => $desc, 'text' => $text, 'date' => $date]);
    }
+
+   public function delPost($id) {
+
+   }
 }
 ?>
