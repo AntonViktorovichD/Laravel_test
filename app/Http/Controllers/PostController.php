@@ -11,6 +11,9 @@ class PostController extends Controller
    public function getOne($id)
    {
       $post = Post::where('id', $id)->first();
+      if ($post == null) {
+         return view('test.404');
+      }
       echo '<h3>' . $post['title'] . '</h3>' . '</p>' . $post['desc'] . ' ' . $post['date'] . '</p>';
       echo '<a href="' . url("test/edit/{$post->id}") . '">Редактировать запись №' . $post['id'] . '</a> ';
    }
@@ -28,6 +31,16 @@ class PostController extends Controller
    {
       $post = Post::find($id);
 
+      if ($post == null) {
+         return view('test.404');
+      }
+
+      $edit = $post->title;
+
+      if ($request->isMethod('get')) {
+         return view('test.edit', ['post' => $post]);
+      }
+
       if ($request->has('submit')) {
          $post->title = $request->title;
          $post->desc = $request->desc;
@@ -35,7 +48,7 @@ class PostController extends Controller
          $post->text = $request->text;
          $post->save();
       }
-      return view('test.editPost', ['post' => $post]);
+      return view('test.editPost', ['attention' => 'В БД изменена запись: ', 'title' => $edit]);
    }
 
    public function newPost(Request $request)
@@ -60,14 +73,17 @@ class PostController extends Controller
    public function delPost(Request $request, $id)
    {
       $post = Post::find($id);
+
       if ($post == null) {
          return view('test.404');
       }
+
       $del = $post->title;
 
       if ($request->isMethod('get')) {
          return view('test.del', ['post' => $post]);
       }
+
       if ($request->has('submit')) {
          $post->title = $request->title;
          $post->delete();
