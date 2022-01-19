@@ -50,11 +50,6 @@ class PostController extends Controller
       $post->date = $request->date;
       $post->save();
 
-      $post = Post::find(1);
-      $post->title = 'Новый заголовок записи с id 1';
-      $post->desc = 'Новое описание записи с id 1';
-      $post->save();
-
       $title = $request->input('title');
       $desc = $request->input('desc');
       $text = $request->input('text');
@@ -62,8 +57,21 @@ class PostController extends Controller
       return view('test.result', ['attention' => 'В БД добавлено: ', 'title' => $title, 'desc' => $desc, 'text' => $text, 'date' => $date]);
    }
 
-   public function delPost($id) {
+   public function delPost(Request $request, $id)
+   {
+      $post = Post::find($id);
 
+      $del = $post->title;
+
+      if ($request->isMethod('get')) {
+         return view('test.del', ['post' => $post]);
+      }
+      if ($request->has('submit')) {
+         $post->title = $request->title;
+         $post->delete();
+      }
+      return view('test.delPost', ['attention' => 'Из БД удалено: ', 'title' => $del]);
    }
 }
+
 ?>
