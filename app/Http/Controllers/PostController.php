@@ -60,7 +60,9 @@ class PostController extends Controller
    public function delPost(Request $request, $id)
    {
       $post = Post::find($id);
-
+      if ($post == null) {
+         return view('test.404');
+      }
       $del = $post->title;
 
       if ($request->isMethod('get')) {
