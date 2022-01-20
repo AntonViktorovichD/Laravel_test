@@ -88,6 +88,12 @@ class PostController extends Controller
       }
       return view('test.delPost', ['attention' => 'Из БД удалено: ', 'title' => $del, 'link' => 'test/all']);
    }
+
+   public function getDeletedPost()
+   {
+      $posts = Post::onlyTrashed()->get();
+      return view('test/trash', ['posts' => $posts]);
+   }
 }
 
 ?>
