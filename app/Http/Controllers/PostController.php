@@ -94,6 +94,11 @@ class PostController extends Controller
       $posts = Post::onlyTrashed()->get();
       return view('test/trash', ['posts' => $posts]);
    }
-}
 
+   public function restorePost($id) {
+      $posts = Post::withTrashed()->where('id', $id)->restore();
+      $post = Post::where('id', $id)->first();
+      return view('test/restore', ['attention' => 'В БД восстановлена запись: ', 'title' => $post->title, 'link' => 'test/all']);
+   }
+}
 ?>
