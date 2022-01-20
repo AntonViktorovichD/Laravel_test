@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Янв 18 2022 г., 10:27
--- Версия сервера: 8.0.27
--- Версия PHP: 7.2.0
+-- Время создания: Янв 20 2022 г., 12:14
+-- Версия сервера: 5.7.37
+-- Версия PHP: 7.3.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,9 +29,9 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `cities`;
 CREATE TABLE IF NOT EXISTS `cities` (
-  `city_id` int NOT NULL AUTO_INCREMENT,
-  `city_name` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `city_country_id` tinyint NOT NULL,
+  `city_id` int(11) NOT NULL AUTO_INCREMENT,
+  `city_name` varchar(16) CHARACTER SET utf8mb4 NOT NULL,
+  `city_country_id` tinyint(4) NOT NULL,
   PRIMARY KEY (`city_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -55,8 +55,8 @@ INSERT INTO `cities` (`city_id`, `city_name`, `city_country_id`) VALUES
 
 DROP TABLE IF EXISTS `countries`;
 CREATE TABLE IF NOT EXISTS `countries` (
-  `country_id` int NOT NULL AUTO_INCREMENT,
-  `country_name` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `country_id` int(11) NOT NULL AUTO_INCREMENT,
+  `country_name` varchar(16) CHARACTER SET utf8mb4 NOT NULL,
   PRIMARY KEY (`country_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -77,7 +77,7 @@ INSERT INTO `countries` (`country_id`, `country_name`) VALUES
 
 DROP TABLE IF EXISTS `employees`;
 CREATE TABLE IF NOT EXISTS `employees` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
   `birthday` date NOT NULL,
   `position` varchar(25) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -105,7 +105,7 @@ INSERT INTO `employees` (`id`, `name`, `birthday`, `position`, `salary`) VALUES
 
 DROP TABLE IF EXISTS `events`;
 CREATE TABLE IF NOT EXISTS `events` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
   `start` date NOT NULL,
   `finish` date NOT NULL,
@@ -125,30 +125,79 @@ INSERT INTO `events` (`id`, `name`, `start`, `finish`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `migrations`
+--
+
+DROP TABLE IF EXISTS `migrations`;
+CREATE TABLE IF NOT EXISTS `migrations` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `migrations`
+--
+
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(1, '2022_01_20_104727_create_posts_table', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `posts`
 --
 
 DROP TABLE IF EXISTS `posts`;
 CREATE TABLE IF NOT EXISTS `posts` (
-  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` char(200) COLLATE utf8mb4_unicode_ci NOT NULL,
   `desc` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL,
   `text` varchar(512) COLLATE utf8mb4_unicode_ci NOT NULL,
   `date` date NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Дамп данных таблицы `posts`
 --
 
-INSERT INTO `posts` (`id`, `title`, `desc`, `text`, `date`) VALUES
-(1, 'Первая статья', 'Первая', '<p>Первая статья.</p>', '2011-09-01'),
-(2, 'Вторая статья', 'Вторая', '<p>Вот и вторая статья</p>', '2011-09-08'),
-(3, 'Третья статья', 'Третья', '<p>Третья статья.</p>', '2011-09-09'),
-(4, 'Четвертая статья', 'Четвертая', '<p>Да, это четвертая статья.</p>', '2011-09-20'),
-(5, 'Пятая статья', 'Пятая', '<p>Моя пятая статья</p>', '2021-12-27'),
-(6, 'Шестая статья', 'Шестая', '<p>Моя очередная шестая статья</p>', '2022-01-19');
+INSERT INTO `posts` (`id`, `title`, `desc`, `text`, `date`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Первая статья', 'Первая', '<p>Первая статья.</p>', '2011-09-01', NULL, NULL, NULL),
+(2, 'Вторая статья', 'Вторая', '<p>Вот и вторая статья</p>', '2011-09-08', NULL, '2022-01-20 09:12:20', '2022-01-20 09:12:20'),
+(3, 'Третья статья', 'Третья', '<p>Третья статья.</p>', '2011-09-09', NULL, NULL, NULL),
+(4, 'Четвертая статья', 'Четвертая', '<p>Да, это четвертая статья.</p>', '2011-09-20', NULL, NULL, NULL),
+(5, 'Пятая статья', 'Пятая', '<p>Моя пятая статья</p>', '2021-12-27', NULL, NULL, NULL),
+(6, 'Шестая статья', 'Шестая', '<p>Моя очередная шестая статья</p>', '2022-01-19', NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `profiles`
+--
+
+DROP TABLE IF EXISTS `profiles`;
+CREATE TABLE IF NOT EXISTS `profiles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `surname` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `profiles`
+--
+
+INSERT INTO `profiles` (`id`, `name`, `surname`, `user_id`) VALUES
+(1, 'user1', 'surname1', 1),
+(2, 'user2', 'surname2', 2),
+(3, 'user3', 'surname3', 3),
+(4, 'user4', 'surname4', 4);
 
 -- --------------------------------------------------------
 
@@ -158,7 +207,7 @@ INSERT INTO `posts` (`id`, `title`, `desc`, `text`, `date`) VALUES
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `login` varchar(16) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(16) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(24) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -182,10 +231,10 @@ INSERT INTO `user` (`id`, `login`, `password`, `email`) VALUES
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `surname` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `age` tinyint NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `surname` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `age` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
